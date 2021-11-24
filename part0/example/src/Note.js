@@ -1,14 +1,13 @@
-export const Note = (props) => {
+export const Note = ({ note, toggleImportance }) => {
     // console.log({props})
 
-    const {content, date} = props
+    const label = note.important
+      ? 'make not important' : 'make important'
     
     return (
-            <li>
-              <p>{content}</p>
-              <small>
-                <time>{date}</time>
-              </small>
+            <li className='note'>
+              {note.content}
+              <button onClick={toggleImportance}>{label}</button>
             </li>           
     );
   }

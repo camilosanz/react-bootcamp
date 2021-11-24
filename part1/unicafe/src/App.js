@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const Part = ({part}) => (
+const Header = ({part}) => (
   <div>
     <h1>{part.name}</h1>
   </div>
@@ -19,8 +19,8 @@ const Statistic = (props) => {
 const Statistics = ({clicks}) => {
 
   const sumAll = clicks[0] + clicks[1] + clicks[2];
-  const average = (clicks[0] - clicks[2])/(clicks[0] + clicks[1] + clicks[2]);
-  const possitive = [(clicks[0]/(clicks[0] + clicks[1] + clicks[2]))*100, ' %']
+  const average = (clicks[0] - clicks[2])/sumAll;
+  const possitive = [(clicks[0]/sumAll)*100, ' %']
 
   return(
     <table>
@@ -66,11 +66,13 @@ const App = () => {
 
   const Content = ({parts}) => (
     <div>
-      <Part part={parts[0]} />
-      <Button setValue={handleClick(parts[0].section[0])} text={parts[0].section[0]} />
-      <Button setValue={handleClick(parts[0].section[1])} text={parts[0].section[1]} />
-      <Button setValue={handleClick(parts[0].section[2])} text={parts[0].section[2]} />
-      <Part part={parts[1]} /> 
+      <Header part={parts[0]} />
+      {
+        parts[0].buttons.map((button) => (
+          <Button setValue={handleClick(button)} text={button} />
+        ))
+      }
+      <Header part={parts[1]} /> 
       {result.length === 0 ? (
         <WarningNotUsed />
       ) : (
@@ -82,12 +84,13 @@ const App = () => {
   const feedback = {
     parts: [
       {
+        id: 1,
         name: 'Give feeback',
-        section: ['Good','Neutral','Bad']
+        buttons: ['Good','Neutral','Bad']
       },
       {
+        id: 2,
         name: 'Statistics',
-        section: 7
       },
     ]
   }
