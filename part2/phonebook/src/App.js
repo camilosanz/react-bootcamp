@@ -17,7 +17,7 @@ const App = () => {
   useEffect(() => {
     console.log('effect')
     axios
-      .get('http://localhost:3001/persons')
+      .get('/api/persons')
       .then(response => {
         console.log('promise fulfilled')
         setPersons(response.data)
@@ -45,7 +45,7 @@ const App = () => {
 
     const filter = {
       value: event.target.value,
-      state: (() => !newFilter)
+      state: (() => !(newFilter.state))
     }
     setNewFilter(filter);
 
@@ -85,10 +85,16 @@ const App = () => {
               }, 3000)       
             })
             .catch(error => {      
-              alert(        
-                `unable to update ${personToUpdate.name}`      
-              )      
-              setPersons(persons.filter(n => n.id !== personToUpdate.id))    
+              console.log(error.response.data)
+              setErrorMessage(
+                {
+                  value: error.response.data.error,
+                  type: 'failure'
+                }
+              )        
+              setTimeout(() => {          
+                setErrorMessage({value:'', type:''})        
+              }, 3000)     
             })
         } 
       }
@@ -110,9 +116,16 @@ const App = () => {
         }, 3000)    
       })
       .catch(error => {      
-        alert(        
-          `unable to create person`      
+        console.log(error.response.data)
+        setErrorMessage(
+          {
+            value: error.response.data.error,
+            type: 'failure'
+          }
         )        
+        setTimeout(() => {          
+          setErrorMessage({value:'', type:''})        
+        }, 3000)     
       })
     }   
   };

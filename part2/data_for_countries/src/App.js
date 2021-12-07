@@ -15,6 +15,11 @@ const App = () => {
     q: 'auto:ip'
   })
 
+  
+  const countryFilter = (country) => (country.name.toLowerCase().startsWith(newFilter.value.toLowerCase()))
+
+  const countryFiltered = countries.filter(countryFilter);
+
   useEffect(() => {
 
     const eventHandler = response => {
@@ -23,6 +28,7 @@ const App = () => {
 
     const eventHandler2 = response => {
       setCitiesWeather(response.data)
+      console.log(response.data)
     } 
 
     const promise = axios.get('https://restcountries.com/v2/all')
@@ -37,6 +43,7 @@ const App = () => {
 
   const handleChangeFilter = (event) => {
     event.preventDefault();
+    console.log(event.target.value)
     
     const country = countryFiltered[0]
 
@@ -52,13 +59,9 @@ const App = () => {
 
     setNewFilter(filter);
     setShowButton(showButtonToAdd);  
-    console.log(country)
     setParams({...params, q: country.capital}) 
+    console.log(country.capital)
   };
-
-  const countryFilter = (country) => (country.name.toLowerCase().startsWith(newFilter.value.toLowerCase()))
-
-  const countryFiltered = countries.filter(countryFilter);
 
   const handleShowButton = (country) => {
     return () => {
@@ -68,7 +71,6 @@ const App = () => {
       }
       
       setShowButton(showButtonToAdd);
-      console.log(country.capital)
       setParams({...params, q: country.capital})
     }
   }

@@ -4,11 +4,13 @@ export const Country = (props) => {
     const {temp_c, gust_kph} = props.weather.current;
     const {icon, text} = props.weather.current.condition;
 
+    console.log(capital)
+    
     return (
         <div>
             <h2>{name}</h2>
             <div>
-                Capital: {capital}
+                Capital: {capital}                
             </div>
             <div>
                 Population: {population}
